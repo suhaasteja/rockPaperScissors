@@ -1,0 +1,82 @@
+<h1><em>Rock Paper Scissors</em></h1>
+
+<h4>Play a five round rock paper scissors game with your computer.</h4>
+<body>
+ Click on your choice:
+<button value = 'rock'>rock</button>
+<button value = "paper">paper</button>
+<button value = "scissors">scissors</button>
+<br><br>
+<div id = 'result'></div>
+<br>
+<div id = 'playerScore'></div>
+<br>
+<div id = 'computerScore'></div>
+</body>
+
+<script>
+let playerScore = 0;
+let computerScore = 0;
+let result = "";
+let roundNumber = 0;
+
+let buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => button.addEventListener('click', () => {
+    roundNumber+=1;
+    playRound(button.value, roundNumber);
+  })
+)
+
+function computerPlay(){
+  let choiceArray = ['rock', 'paper', 'scissors'];
+  return choiceArray[Math.floor(Math.random() * choiceArray.length)];
+}
+
+function playRound(playerSelection, roundNumber)
+{
+  if(roundNumber<=5)
+    {
+  playerSelection = playerSelection.toLowerCase();
+  let computerSelection = computerPlay();
+  
+  if(playerSelection == computerSelection)
+    {
+      result = `ROUND ${roundNumber}: Draw. You selected ${playerSelection} and computer chose ${computerSelection}.`;
+    }
+  //if player wins
+  else if (playerSelection == "scissors" && computerSelection == "paper" || playerSelection == "rock" && computerSelection == "scissors" || playerSelection == "scissors" && computerSelection == "paper" || playerSelection == "paper" && computerSelection == "rock") 
+                {
+                     result = `ROUND ${roundNumber}: You win! You selected ${playerSelection} and computer chose ${computerSelection}.`; 
+                     playerScore++;
+                }
+  else
+    {
+      result = `ROUND ${roundNumber}: You lost! You selected ${playerSelection} and computer chose ${computerSelection}.`;
+      computerScore++;
+    }
+  
+  let res = document.querySelector('#result');
+  res.innerHTML = result;
+  
+  document.querySelector('#playerScore').innerHTML = `Player Score: ${playerScore}`;
+  
+  document.querySelector('#computerScore').innerHTML = `Computer Score: ${computerScore}`;
+    }
+  else
+    {
+      if(playerScore>computerScore)
+        {
+          alert(`You won the game. Please reload the page to play again.`);
+        }
+      else if(playerScore == computerScore)
+        {
+          alert('This game is a tie. Please reload the page the play again');
+        }
+      else
+        {
+          alert('You lost this game. Please reload the page to play again');
+        }
+    }
+}
+</script>
